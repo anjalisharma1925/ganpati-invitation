@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ganpati Bappa Morya 🙏</title>
+
+<!-- Stylish fonts: elegant Sanskrit/Devanagari + modern invitation typography -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Great+Vibes&family=Noto+Serif+Devanagari:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+    font-family:"Poppins",sans-serif;
+    color:#fff;
+    background:linear-gradient(180deg,#071f2b 0%,#3a1118 48%,#18070b 100%);
+    overflow-x:hidden;
+}
+
+
+/* ================= STYLISH TYPOGRAPHY ================= */
+.opening h1,
+.hero h1,
+.card h2,
+footer h2{
+    font-family:"Noto Serif Devanagari","Cormorant Garamond",serif;
+    font-weight:700;
+}
+
+.opening h1,
+.hero h1{
+    letter-spacing:1px;
+}
+
+.opening p,
+.subtitle{
+    font-family:"Poppins",sans-serif;
+    font-weight:500;
+}
+
+.hero h2{
+    font-family:"Great Vibes","Cormorant Garamond",cursive;
+    font-weight:400;
+    letter-spacing:1px;
+}
+
+.hero p,
+.card p,
+.detail p,
+footer p{
+    font-family:"Poppins",sans-serif;
+}
+
+.card h2{
+    font-family:"Cormorant Garamond","Noto Serif Devanagari",serif;
+    font-size:clamp(38px,5vw,52px);
+    letter-spacing:1px;
+}
+
+.enter-btn,
+.btn{
+    font-family:"Poppins",sans-serif;
+    letter-spacing:.5px;
+}
+
+/* ================= OPENING ================= */
+.opening{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:
+        radial-gradient(circle at center,rgba(25,190,205,.28),transparent 35%),
+        linear-gradient(135deg,#02151e,#063d4b 50%,#02151e);
+}
+
+/* IMPORTANT: content is above curtains so the button can be clicked */
+.opening-content{
+    position:relative;
+    z-index:20;
+    width:min(90%,650px);
+    padding:25px;
+    transition:opacity .7s ease,transform .7s ease;
+}
+.opening-content.hidden{
+    opacity:0;
+    transform:scale(.92);
+    pointer-events:none;
+}
+
+.opening-ganpati{
+    width:min(240px,55vw);
+    height:min(240px,55vw);
+    object-fit:cover;
+    border-radius:50%;
+    border:4px solid #ffe4a0;
+    box-shadow:0 0 25px #ffd86b,0 0 80px rgba(70,230,240,.55);
+    animation:glow 2s infinite alternate;
+    margin-bottom:18px;
+}
+
+.opening h1{
+    font-size:clamp(36px,7vw,70px);
+    color:#fff1bd;
+    font-weight:700;
+    text-shadow:0 4px 25px #000;
+    margin:10px 0;
+}
+.opening p{
+    font-size:17px;
+    letter-spacing:3px;
+    color:#d8fbff;
+}
+
+.enter-btn{
+    margin-top:30px;
+    padding:16px 34px;
+    border:1px solid #ffe6a3;
+    border-radius:50px;
+    background:linear-gradient(135deg,#ffe08a,#f5ad52);
+    color:#07323e;
+    font-size:16px;
+    font-weight:600;
+    letter-spacing:.4px;
+    cursor:pointer;
+    box-shadow:0 0 20px rgba(255,214,110,.8);
+    transition:.3s;
+}
+.enter-btn:hover{transform:scale(1.06)}
+
+/* ================= CURTAINS ================= */
+/* Curtains are BELOW opening-content, but ABOVE the background */
+.curtain{
+    position:absolute;
+    top:0;
+    width:50.5%;
+    height:100%;
+    z-index:10;
+    transition:transform 2.2s cubic-bezier(.77,0,.18,1);
+    background:
+        repeating-linear-gradient(
+            90deg,
+            rgba(255,255,255,.035) 0 8px,
+            rgba(0,0,0,.08) 8px 22px
+        ),
+        linear-gradient(90deg,#02141d,#075365,#021923);
+    box-shadow:inset 0 0 100px rgba(0,0,0,.75);
+}
+.curtain.left{left:0;transform-origin:left center}
+.curtain.right{right:0;transform-origin:right center}
+.opening.open .curtain.left{transform:translateX(-105%)}
+.opening.open .curtain.right{transform:translateX(105%)}
+
+/* Curtain folds */
+.curtain:after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:repeating-linear-gradient(
+        90deg,
+        transparent 0 18px,
+        rgba(255,255,255,.05) 18px 28px,
+        transparent 28px 45px
+    );
+}
+
+/* ================= DIYAS ================= */
+.diyas{
+    position:absolute;
+    z-index:30;
+    bottom:8%;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:55px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .8s ease 1s;
+}
+.opening.open .diyas{opacity:1}
+
+.diya{
+    position:relative;
+    width:42px;
+    height:22px;
+    border-radius:0 0 25px 25px;
+    background:linear-gradient(#ffd77b,#a65b28);
+    box-shadow:0 5px 15px rgba(0,0,0,.5);
+}
+.flame{
+    position:absolute;
+    left:12px;
+    bottom:15px;
+    width:18px;
+    height:30px;
+    border-radius:50% 50% 45% 45%;
+    background:#ffd86b;
+    box-shadow:0 0 15px #ffd86b,0 0 40px #ffb83e;
+    animation:flicker .6s infinite alternate;
+}
+@keyframes flicker{
+    from{transform:scale(.85) rotate(-4deg)}
+    to{transform:scale(1.12) rotate(4deg)}
+}
+@keyframes glow{
+    from{box-shadow:0 0 25px #ffd86b,0 0 60px rgba(70,230,240,.35)}
+    to{box-shadow:0 0 45px #fff0a5,0 0 100px rgba(70,230,240,.7)}
+}
+
+/* ================= HERO ================= */
+.hero{
+    min-height:100vh;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    overflow:hidden;
+    padding:80px 20px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(2,54,68,.48) 0%,
+            rgba(103,22,30,.48) 48%,
+            rgba(35,5,12,.84) 100%
+        ),
+        url("ganpati.jpg") center/cover no-repeat;
+}
+.hero:after{
+    content:"";
+    position:absolute;
+    inset:auto 0 0;
+    height:180px;
+    background:linear-gradient(transparent,#031d27);
+}
+.hero-content{
+    position:relative;
+    z-index:3;
+    max-width:900px;
+}
+.subtitle{
+    color:#aeeff5;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    font-size:17px;
+}
+.hero h1{
+    margin:18px 0;
+    font-size:clamp(48px,9vw,96px);
+    color:#fff0b7;
+    font-weight:700;
+    text-shadow:0 5px 25px #000;
+}
+.hero h2{
+    font-size:clamp(25px,5vw,42px);
+    margin-bottom:18px;
+}
+.hero p{
+    font-size:20px;
+    line-height:1.8;
+    color:#e6fbff;
+}
+
+.divider{
+    width:250px;
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin:24px auto;
+}
+.divider:before,.divider:after{
+    content:"";
+    height:2px;
+    flex:1;
+    background:#8de8f4;
+}
+.divider span{font-size:25px}
+
+/* ================= INVITATION ================= */
+.invitation{
+    min-height:80vh;
+    padding:80px 20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background:
+        radial-gradient(circle at 15% 0%,rgba(12,126,145,.72),transparent 36%),
+        radial-gradient(circle at 85% 20%,rgba(172,35,46,.58),transparent 38%),
+        linear-gradient(135deg,#063b4b 0%,#43131d 58%,#16070c 100%);
+}
+.card{
+    width:min(850px,100%);
+    padding:50px 35px;
+    border:2px solid rgba(255,205,132,.78);
+    border-radius:30px;
+    background:linear-gradient(
+        135deg,
+        rgba(120,231,242,.10),
+        rgba(145,24,40,.16)
+    );
+    backdrop-filter:blur(12px);
+    box-shadow:0 20px 70px rgba(0,0,0,.5);
+}
+.card h2{font-size:40px;color:#b9f6ff;margin-bottom:15px}
+.card p{font-size:19px;line-height:1.9;color:#fff4d2}
+
+.details{
+    margin:35px auto 0;
+    max-width:430px;
+}
+.detail{
+    padding:25px 15px;
+    border-radius:20px;
+    background:linear-gradient(
+        135deg,
+        rgba(90,221,235,.10),
+        rgba(170,35,48,.16)
+    );
+    border:1px solid rgba(255,188,120,.38);
+}
+.detail-icon{font-size:40px}
+.detail h3{margin:10px 0;color:#b9f6ff}
+
+.buttons{
+    display:flex;
+    justify-content:center;
+    margin-top:30px;
+}
+.btn{
+    padding:15px 28px;
+    border-radius:50px;
+    border:1px solid #b9f6ff;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:bold;
+    background:#8de8f4;
+    color:#053646;
+}
+.btn:hover{transform:translateY(-3px)}
+
+footer{
+    text-align:center;
+    padding:45px 20px;
+    background:linear-gradient(180deg,#210910,#08040a);
+    color:#ffdca3;
+}
+footer h2{font-size:30px;margin-bottom:8px}
+
+
+/* ================= FESTIVE RED GLOW ================= */
+.hero::before{
+    content:"";
+    position:absolute;
+    width:520px;
+    height:520px;
+    border-radius:50%;
+    background:radial-gradient(
+        circle,
+        rgba(194,38,52,.28),
+        rgba(7,107,125,.10) 48%,
+        transparent 72%
+    );
+    right:-180px;
+    top:8%;
+    pointer-events:none;
+    animation:festiveGlow 5s ease-in-out infinite alternate;
+}
+@keyframes festiveGlow{
+    from{transform:scale(.9);opacity:.55}
+    to{transform:scale(1.15);opacity:1}
+}
+
+/* ================= PETALS/PARTICLES ================= */
+.petal{
+    position:fixed;
+    top:-50px;
+    z-index:100;
+    pointer-events:none;
+    animation:fall linear forwards;
+}
+@keyframes fall{
+    from{transform:translateY(-50px) rotate(0);opacity:1}
+    to{transform:translateY(110vh) rotate(720deg);opacity:.8}
+}
+.particle{
+    position:absolute;
+    width:5px;height:5px;
+    border-radius:50%;
+    background:#b9f6ff;
+    box-shadow:0 0 12px #b9f6ff;
+    animation:floatParticle linear infinite;
+}
+@keyframes floatParticle{
+    from{transform:translateY(100vh)}
+    to{transform:translateY(-20vh)}
+}
+
+@media(max-width:700px){
+    .hero{padding:70px 18px}
+    .hero p{font-size:17px}
+    .card{padding:38px 20px}
+    .diyas{gap:30px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= OPENING SCREEN ================= -->
+<div class="opening" id="opening">
+
+    <!-- Curtains -->
+    <div class="curtain left"></div>
+    <div class="curtain right"></div>
+
+    <!-- Opening content is intentionally ABOVE curtains -->
+    <div class="opening-content" id="openingContent">
+        <img
+            class="opening-ganpati"
+            src="ganpati.jpg"
+            alt="Ganpati Bappa"
+            onerror="this.style.display='none';"
+        >
+
+        <h1>गणपती बाप्पा मोरया!</h1>
+        <p>A Divine Invitation Awaits You</p>
+
+        <button class="enter-btn" id="enterBtn">
+            🪔 Open Bappa's Invitation 🪔
+        </button>
+    </div>
+
+    <!-- Diyas appear after clicking -->
+    <div class="diyas">
+        <div class="diya"><div class="flame"></div></div>
+        <div class="diya"><div class="flame"></div></div>
+        <div class="diya"><div class="flame"></div></div>
+    </div>
+</div>
+
+<!-- ================= MAIN INVITATION ================= -->
+<section class="hero">
+    <div id="particles"></div>
+
+    <div class="hero-content">
+        <div class="subtitle">With the blessings of Lord Ganesha</div>
+
+        <h1>गणपती बाप्पा मोरया!</h1>
+
+        <div class="divider"><span>🌺</span></div>
+
+        <h2>Come Celebrate With Us</h2>
+
+        <p>
+            With hearts filled with devotion and homes filled with happiness,
+            we welcome our beloved <strong>Ganpati Bappa</strong>.
+            <br><br>
+            We would be delighted to have you and your family join us
+            in seeking Bappa's blessings and celebrating together.
+        </p>
+    </div>
+</section>
+
+<!-- ================= INVITATION CARD ================= -->
+<section class="invitation">
+    <div class="card">
+        <h2>🪔 You Are Invited 🪔</h2>
+
+        <div class="divider"><span>🌊</span></div>
+
+        <p>
+            Let us come together with devotion, laughter and happiness
+            to celebrate the arrival of our beloved Bappa.
+            <br><br>
+            Your presence, along with your family, will make this
+            celebration even more beautiful and memorable.
+            <br><br>
+            ❤️ <strong>We warmly welcome you and your family.</strong> ❤️
+        </p>
+
+        <div class="details">
+            <div class="detail">
+                <div class="detail-icon">📍</div>
+                <h3>Venue</h3>
+                <p id="venue">YOUR ADDRESS</p>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="btn" id="locationBtn">📍 Get Directions</button>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <h2>🙏 गणपती बाप्पा मोरया 🙏</h2>
+    <p>मंगलमूर्ती मोरया!</p>
+</footer>
+
+<!-- Soft background music.
+     Browser audio is started ONLY after the user clicks the button. -->
+<audio id="ganpatiMusic" loop preload="auto">
+    <source src="ganpati-music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* ================= YOUR DETAILS ================= */
+const EVENT_ADDRESS = "YOUR FULL ADDRESS";
+const GOOGLE_MAPS_LINK = "https://www.google.com/maps";
+
+/* Put your venue on the page */
+document.getElementById("venue").textContent = EVENT_ADDRESS;
+
+/* ================= OPEN INVITATION ================= */
+document.getElementById("enterBtn").addEventListener("click", function(){
+
+    const opening = document.getElementById("opening");
+    const content = document.getElementById("openingContent");
+    const music = document.getElementById("ganpatiMusic");
+
+    /* Hide text/button */
+    content.classList.add("hidden");
+
+    /* Open both curtains */
+    opening.classList.add("open");
+
+    /* Start soft music after real user interaction */
+    music.volume = 0.22;
+    music.play().catch(function(){
+        console.log("Music could not autoplay. Check ganpati-music.mp3.");
+    });
+
+    /* Start visual effects */
+    createFlowers();
+    createParticles();
+
+    /* Completely remove opening screen after animation */
+    setTimeout(function(){
+        opening.style.display = "none";
+        window.scrollTo({top:0,behavior:"smooth"});
+    }, 3200);
+});
+
+/* ================= FLOWERS ================= */
+let flowersStarted = false;
+
+function createFlowers(){
+    if(flowersStarted) return;
+    flowersStarted = true;
+
+    for(let i=0;i<20;i++){
+        setTimeout(createFlower,i*100);
+    }
+
+    setInterval(createFlower,900);
+}
+
+function createFlower(){
+    const flower=document.createElement("div");
+    flower.className="petal";
+
+    const list=["🌸","🌺","🌼","🌷","💮"];
+    flower.textContent=list[Math.floor(Math.random()*list.length)];
+    flower.style.left=Math.random()*100+"vw";
+    flower.style.fontSize=(15+Math.random()*20)+"px";
+    flower.style.animationDuration=(5+Math.random()*5)+"s";
+
+    document.body.appendChild(flower);
+
+    setTimeout(function(){flower.remove()},11000);
+}
+
+/* ================= PARTICLES ================= */
+function createParticles(){
+    const container=document.getElementById("particles");
+
+    for(let i=0;i<35;i++){
+        const particle=document.createElement("div");
+        particle.className="particle";
+        particle.style.left=Math.random()*100+"%";
+        particle.style.animationDuration=(5+Math.random()*8)+"s";
+        particle.style.animationDelay=Math.random()*5+"s";
+        container.appendChild(particle);
+    }
+}
+
+/* ================= MAP ================= */
+document.getElementById("locationBtn").addEventListener("click",function(){
+    window.open(GOOGLE_MAPS_LINK,"_blank");
+});
+</script>
+
+</body>
+</html>
